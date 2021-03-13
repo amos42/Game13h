@@ -1,0 +1,87 @@
+;**********************
+; Macro Define
+;*********************
+  equal        = 0
+  not_equal    = 1
+  greate       = 2
+  greate_equal = 3
+  less         = 4
+  less_equal   = 5
+
+IF_INDEX = 0
+
+macro _if  op1, rel, op2, _label
+  cmp op1, op2
+
+  IF     rel EQ equal
+    jne @@&_label&
+  ELSEIF rel EQ not_equal
+    je  @@&_label&
+  ELSEIF rel EQ greate
+    jle @@&_label&
+  ELSEIF rel EQ greate_equal
+    jl  @@&_label&
+  ELSEIF rel EQ less
+    jge @@&_label&
+  ELSEIF rel EQ less_equal
+    jg  @@&_label&
+  ENDIF
+endm
+
+macro _endif  _label
+  @@&_label&:
+endm
+
+macro _if_zero  value, _label
+  or value, 0
+  jz _label
+endm
+
+macro _if_not_zero  value, _label
+  or value, 0
+  jnz _label
+endm
+
+
+macro set_page  value, page_no
+  ifdif <page_no>, <bx>
+    mov bx, page_no
+  endif
+  shl bx, 1
+  mov value, [word _screen_page + bx]
+endm
+
+
+macro calc_addr  value, screen_x, screen_y
+  ifdif <screen_y>, <ax>
+    mov ax, screen_y
+  endif
+  xchg ah, al
+  mov value, ax
+  shr ax, 2
+  add ax, screen_x
+  add value, ax
+endm
+
+
+macro mul_320 value, mul_data
+  ifdif <mul_data>, <ax>
+    mov ax, mul_data
+  endif
+  xchg ah, al
+  mov value, ax
+  shr ax, 2
+  add value, ax
+endm
+
+
+macro wait_write_dac
+  local wait
+
+  mov dx, 3DAh
+ wait:
+  in al, dx
+  test al, 00001000b
+  jz wait
+endm
+
