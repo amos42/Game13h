@@ -2,4 +2,4 @@
 
 for MS-DOS
 
-compiled by Turbo-C 3.1 & TASM
+compiled by Turbo-C 3.0 & TASM
