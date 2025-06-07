@@ -28,6 +28,10 @@
 #include <io.h>
 #include <fcntl.h>
 
+#indef __cplusplus
+extern "C" {
+#endif
+
 #define GRAPH_SEG       0xA000
 #define H_RES           320
 #define V_RES           200
@@ -514,3 +518,7 @@ void draw_button( int start_x, int start_y, int end_x, int end_y, button_data *b
 void push_button( button_data *button );
 void release_button( button_data *button );
 
+
+#ifdef __cplusplus
+}
+#endif

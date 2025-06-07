@@ -2,7 +2,9 @@
 
 void main()
 {
+  register int i;
   int x = 100, y = 80, step, handle;
+  int joy_x, joy_y, button = 0;
   image_data image;
   int noise_flag = FALSE;
 
@@ -25,35 +27,38 @@ void main()
 
   fade_in( BLACK, 64, 25 );
   set_cycle( 175, 128, NO_DELAY );
-  set_multi_key();
   _page_number = 1;
   _attr_shadow_color = 3;
 
-  while( !( _key.scan[29] && _key.scan[56] && _key.scan[83] ) ){  /* Ctrl+Alt+Del */
+  while( button != 3 ){  /* Ctrl+Alt+Del */
     if( noise_flag ){
       tv_noise_clip();
       bar( 120, 0, 120+7+2, 15+2, BLACK );
      } else
       restore_screen( handle, 1 );
 
+    get_joy_stick( &joy_x, &joy_y );
+    button = get_joy_button();
+
     char_put_clip( x, y, image );
-    make_str_double( 120, 0, str( _key.press ), WHITE, 2 );
+    make_str_double( 120, 0, str( button ), WHITE, 2 );
     copy_page( 1, 0 );
 
-    if( _key.scan[56] ) step = 1; else step = 10;  /* Alt */
-    if( _key.scan[72] ) y -= step;                 /* Up    */
-    if( _key.scan[80] ) y += step;                 /* Down  */
-    if( _key.scan[75] ) x -= step;                 /* Left  */
-    if( _key.scan[77] ) x += step;                 /* Right */
+    if( button == 1 ) step = 1; else step = 10;
+    if( joy_y < 200 ) y -= step;               /* Up    */
+    if( joy_y > 800 ) y += step;               /* Down  */
+    if( joy_x < 100 ) x -= step;               /* Left  */
+    if( joy_x > 800 ) x += step;               /* Right */
 
-    noise_flag = _key.scan[1];                     /* ESC   */
+    if( button == 2 ) noise_flag = TRUE; else noise_flag = FALSE;
    }
-  reset_multi_key();
   stop_music();
 
   _change_palette_flag = FALSE;
-  fade_out( BLACK, 32, 25 );
-
+  for( i = 0; i < 64; i ++ ){
+    fade_out_step( BLACK, i );
+    delay_program( 25 );
+   }
   reset_cycle();
 
   farfree( image );

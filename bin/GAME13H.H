@@ -28,6 +28,10 @@
 #include <io.h>
 #include <fcntl.h>
 
+#indef __cplusplus
+extern "C" {
+#endif
+
 #define GRAPH_SEG       0xA000
 #define H_RES           320
 #define V_RES           200
@@ -250,7 +254,6 @@ int  open_user_window( int x, int y, word size_x, word size_y, window_data *wind
 int  center_user_window( word size_x, word size_y, window_data *window );
 void close_window( window_data *window );
 
-
 /**************************
     ÌiAËa ‰Åe Ðq®—i
 ***************************/
@@ -419,6 +422,7 @@ void stop_voice( void );
 extern void (*output_voice)( voice_data data );
 extern void (*close_voice)( void );
 extern int _sound_device;
+
 extern struct sb_state _sb;
 extern bool _voice_flag;
 
@@ -514,3 +518,7 @@ void draw_button( int start_x, int start_y, int end_x, int end_y, button_data *b
 void push_button( button_data *button );
 void release_button( button_data *button );
 
+
+#ifdef __cplusplus
+}
+#endif

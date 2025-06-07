@@ -1,6 +1,6 @@
 #include <game13h.h>
 
-main()
+void main()
 {
   int i, j;
   int x = 100, y = 80, step;
@@ -14,12 +14,12 @@ main()
 
   play_midi( "E.MDI" );
   for( i = 0; i < 11; i ++ )
-    set_voice_volume( i, 0x7f );
+    set_music_volume( i );
 
   set_monitor( OFF );
     _page_number = 2;
     load_picture( "TEXT.GPG", 0 );
-    make_str_multi( 0, 0, "Key Pressed : ", 8*16, NO_DELAY );
+    make_str_multi( 0, 0, "Key Pressed : ", 8*16 );
     copy_page( 2, 1 );
     _page_number = 1;
     load_image( "HOSE.IMG", &image, 0 );
@@ -32,7 +32,7 @@ main()
   fade_in( BLACK, 64, 25 );
   set_cycle( 175, 128, NO_DELAY );
   set_multi_key();
-  _attr_shade_color = 3;
+  _attr_shadow_color = 3;
 
   while( !( _key.scan[29] && _key.scan[56] && _key.scan[83] ) ){  /* Ctrl+Alt+Del */
     if( noise_flag ){
@@ -42,7 +42,7 @@ main()
       copy_page( 2, 1 );
 
     char_put_clip( x, y, image );
-    make_str_double( 120, 0, str( _key.press ), WHITE, NO_DELAY, 2 );
+    make_str_double( 120, 0, str( _key.press ), WHITE, 2 );
     copy_page( 1, 0 );
 
     if( _key.scan[56] ) step = 1; else step = 10;  /* Alt */
@@ -54,12 +54,12 @@ main()
     noise_flag = _key.scan[1];                     /* ESC   */
    }
   reset_multi_key();
-  for( i = 0x7f; i >= 0; i -- ){
+  //for( i = 0x7f; i >= 0; i -- ){
     for( j = 0; j < 11; j ++ )
-      set_voice_volume( j, i );
+      set_music_volume( j );
     delay_program( 50 );
-   }
-  stop_melody();
+  // }
+  stop_music();
 
   _change_palette_flag = FALSE;
   fade_out( BLACK, 64, 25 );

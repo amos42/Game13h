@@ -1,15 +1,18 @@
 #include <game13h.h>
 
-main()
+void main()
 {
-  char *prompt;
+  char *prompt, *command;
 
   init_midi();
   play_midi( "E.MDI" );
 
   prompt = getenv( "PROMPT" );
+  command = getenv( "COMSPEC" );
   putenv( "PROMPT=Type 'EXIT' to end music.$_$P$G" );
-  system( "%COMSPEC" );
+
+  printf("Type 'EXIT' to end music.\n");
+  system( command );
   putenv( prompt );
 
   stop_music();
