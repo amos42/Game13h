@@ -15,3 +15,5 @@
 *.gch
 *.pch
 
+# Backup
+*.bak
