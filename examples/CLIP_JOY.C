@@ -30,7 +30,7 @@ void main()
   _page_number = 1;
   _attr_shadow_color = 3;
 
-  while( button != 3 ){  /* Ctrl+Alt+Del */
+  while( button != 3 ){
     if( noise_flag ){
       tv_noise_clip();
       bar( 120, 0, 120+7+2, 15+2, BLACK );

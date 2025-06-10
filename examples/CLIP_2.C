@@ -29,7 +29,7 @@ void main()
   _page_number = 1;
   _attr_shadow_color = 3;
 
-  while( !( _key.scan[29] && _key.scan[56] && _key.scan[83] ) ){  /* Ctrl+Alt+Del */
+  while( !( _key.scan[1] ) ){  /* ESC */
     if( noise_flag ){
       tv_noise_clip();
       bar( 120, 0, 120+7+2, 15+2, BLACK );
@@ -46,7 +46,7 @@ void main()
     if( _key.scan[75] ) x -= step;                 /* Left  */
     if( _key.scan[77] ) x += step;                 /* Right */
 
-    noise_flag = _key.scan[1];                     /* ESC   */
+    noise_flag = _key.scan[57];                     /* SPACE   */
    }
   reset_multi_key();
   stop_music();

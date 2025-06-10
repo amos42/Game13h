@@ -28,7 +28,7 @@
 #include <io.h>
 #include <fcntl.h>
 
-#indef __cplusplus
+#ifdef __cplusplus
 extern "C" {
 #endif
 
